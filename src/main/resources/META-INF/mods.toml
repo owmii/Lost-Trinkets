@@ -1,0 +1,28 @@
+modLoader="javafml" 
+loaderVersion="[32,)"
+issueTrackerURL="https://github.com/owmii/lost-trinkets/issues"
+license="LGPLv3"
+
+[[mods]]
+modId="losttrinkets"
+version="${file.jarVersion}"
+displayName="Lost Trinkets"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/lost-trinkets"
+authors="owmii"
+description='''
+Lost Trinkets.
+'''
+
+[[dependencies.losttrinkets]]
+    modId="lollipop"
+    mandatory=true
+    versionRange="[3.0.0,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.losttrinkets]]
+    modId="forge"
+    mandatory=true
+    versionRange="[32.0.108,)"
+    ordering="NONE"
+    side="BOTH"

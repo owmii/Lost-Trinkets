@@ -1,0 +1,26 @@
+2.1.0
+- Fixed crash caused by the breaking change from forge 32.0.67.
+- Changed min forge version to 32.0.67.
+- Updated lollipop to v2.1.0.
+
+2.0.4
+- Re-implemented Powah! manual.
+- Re-implemented missing discharger functions.
+- Fixed redstone configuration for all blocks.
+- Fixed reactor not accepting solid coolant.
+- Updated lollipop to v2.0.2.
+
+2.0.3
+- Fixed crash when adding a binding card to the player transmitter, Closes #90.
+- Fixed binding card not rendering correctly.
+
+2.0.2
+- Fixed Energizing rods cannot be placed on cables.
+- Re-Added curios support for the player transmitter.
+- Updated lollipop to v2.0.1.
+
+2.0.1
+- Fixed reactor placing overlay not showing.
+
+2.0.0
+- First 1.16 beta release.

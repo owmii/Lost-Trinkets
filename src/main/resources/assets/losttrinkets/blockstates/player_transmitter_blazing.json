@@ -1,0 +1,6 @@
+{
+  "variants": {
+	"top=false": {"model": "powah:block/player_transmitter_blazing"},
+	"top=true": {"model": "powah:block/player_transmitter_blazing_top"}
+  }
+}
