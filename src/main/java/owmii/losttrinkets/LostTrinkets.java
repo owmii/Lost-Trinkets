@@ -29,6 +29,7 @@ public class LostTrinkets implements IMod {
         Blcks.REG.init();
         Itms.REG.init();
         Sounds.REG.init();
+        Entities.REG.init();
 
         loadListeners();
         Configs.register();
