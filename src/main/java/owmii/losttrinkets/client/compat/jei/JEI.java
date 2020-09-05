@@ -13,7 +13,7 @@ import owmii.losttrinkets.LostTrinkets;
 import owmii.losttrinkets.handler.UnlockManager;
 
 @JeiPlugin
-public class JEICompat implements IModPlugin {
+public class JEI implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         UnlockManager.getTrinkets().stream().map(ItemStack::new).forEach(stack -> registration.addIngredientInfo(stack, VanillaTypes.ITEM, I18n.format(Util.makeTranslationKey("info", Registry.ITEM.getKey(stack.getItem())))));

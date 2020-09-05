@@ -5,5 +5,6 @@ import owmii.lib.registry.Registry;
 import owmii.losttrinkets.LostTrinkets;
 
 public class ITiles {
-    public static final Registry<TileEntityType<?>> REG = new Registry<>(LostTrinkets.MOD_ID);
+    @SuppressWarnings("unchecked")
+    public static final Registry<TileEntityType<?>> REG = new Registry(TileEntityType.class, LostTrinkets.MOD_ID);
 }

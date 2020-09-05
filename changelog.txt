@@ -1,3 +1,10 @@
+0.1.0
+- Port to 1.16.2
+
+0.0.3
+- Fixed trinkets not unlocking (a really dumb bug)
+- Fixed some trinkets not functioning correctly
+
 0.0.2
 - Fixed Entities registry.
 - Clean-Up assets from junk.

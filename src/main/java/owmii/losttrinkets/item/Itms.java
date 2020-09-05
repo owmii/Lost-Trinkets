@@ -10,7 +10,7 @@ import owmii.losttrinkets.block.Blcks;
 import owmii.losttrinkets.item.trinkets.*;
 
 public class Itms {
-    public static final Registry<Item> REG = new Registry<>(LostTrinkets.MOD_ID, Blcks.REG.getBlockItems(ItemGroups.MAIN));
+    public static final Registry<Item> REG = new Registry<>(Item.class, Blcks.REG.getBlockItems(ItemGroups.MAIN), LostTrinkets.MOD_ID);
     public static final Trinket PIGGY = REG.register("piggy", new Trinket(Rarity.COMMON, new Item.Properties().group(ItemGroups.MAIN)));
     public static final Trinket CREEPO = REG.register("creepo", new CreepoTrinket(Rarity.COMMON, new Item.Properties().group(ItemGroups.MAIN)));
     public static final Trinket HORSESHOE = REG.register("horseshoe", new HorseshoeTrinket(Rarity.COMMON, new Item.Properties().group(ItemGroups.MAIN)));

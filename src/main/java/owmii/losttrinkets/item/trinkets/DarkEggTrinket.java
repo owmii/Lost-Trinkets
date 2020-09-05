@@ -6,8 +6,8 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.trinket.Rarity;
@@ -37,8 +37,8 @@ public class DarkEggTrinket extends Trinket<DarkEggTrinket> {
                     if (entities < 6) {
                         for (int i = 0; i < 3; i++) {
                             DarkVexEntity vex = Entities.DARK_VEX.create(world);
-                            if (vex != null && world instanceof ServerWorld) {
-                                vex.onInitialSpawn(world, world.getDifficultyForLocation(player.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
+                            if (vex != null && world instanceof IServerWorld) {
+                                vex.onInitialSpawn((IServerWorld) world, world.getDifficultyForLocation(player.getPosition()), SpawnReason.MOB_SUMMONED, null, null);
                                 vex.setAttackTarget(living);
                                 vex.setOwner(player);
                                 vex.setBoundOrigin(player.getPosition());

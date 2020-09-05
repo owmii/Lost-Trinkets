@@ -1,28 +1,28 @@
 modLoader="javafml" 
-loaderVersion="[32,)"
-issueTrackerURL="https://github.com/owmii/lost-trinkets/issues"
+loaderVersion="[33,)"
+issueTrackerURL="https://github.com/owmii/losttrinkets/issues"
 license="LGPLv3"
 
 [[mods]]
 modId="losttrinkets"
 version="${file.jarVersion}"
 displayName="Lost Trinkets"
-displayURL="https://www.curseforge.com/minecraft/mc-mods/lost-trinkets"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/losttrinkets"
 authors="owmii"
 description='''
-Lost Trinkets adds more than 70+ unlockable trinkets with different abilities and rarities..
+70+ Unlockable trinkets with different useful abilities.
 '''
 
 [[dependencies.losttrinkets]]
     modId="lollipop"
     mandatory=true
-    versionRange="[3.0.0,)"
+    versionRange="[3.1.2,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.losttrinkets]]
     modId="forge"
     mandatory=true
-    versionRange="[32.0.108,)"
+    versionRange="[33.0.3,)"
     ordering="NONE"
     side="BOTH"

@@ -18,7 +18,6 @@ import javax.annotation.Nullable;
 
 public class TrinketOptionScreen extends AbstractLTScreen {
     private final ITrinket trinket;
-    @SuppressWarnings("NullableProblems")
     private Button button;
 
     @Nullable

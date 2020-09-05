@@ -14,7 +14,7 @@ import owmii.losttrinkets.client.screen.TrinketsScreen;
 
 @Mod.EventBusSubscriber(Dist.CLIENT)
 public class KeyHandler {
-    public static final KeyBinding TRINKET_GUI = new KeyBinding("key.losttrinkets.trinket", 82, "itemGroup.losttrinkets");
+    public static final KeyBinding TRINKET_GUI = new KeyBinding("key.trinket", 82, "key.categories.losttrinkets");
 
     public static void register() {
         ClientRegistry.registerKeyBinding(TRINKET_GUI);

@@ -32,27 +32,27 @@ public class GeneralConfig {
 
         builder.push("Killing_Unlocks");
         this.killingUnlockEnabled = builder.comment("Set to false to disable unlocking trinkets from killing non-Boss entities.").define("killingUnlockEnabled", true);
-        this.killing = builder.comment("Rarity of unlocking a trinket from killing non-Boss entities. (Greater number = more rare)").defineInRange("killing", 80, 2, 100000);
+        this.killing = builder.comment("Rarity of unlocking a trinket from killing non-Boss entities. (Greater number = more rare)").defineInRange("killing", 120, 2, 100000);
         builder.pop();
         builder.push("Bosses_Killing_Unlocks");
         this.bossKillingUnlockEnabled = builder.comment("Set to false to disable unlocking trinkets from killing Bosses.").define("bossKillingUnlockEnabled", true);
-        this.bossKilling = builder.comment("Rarity of unlocking a trinket from killing Bosses. (Greater number = more rare)").defineInRange("bossKilling", 4, 2, 100000);
+        this.bossKilling = builder.comment("Rarity of unlocking a trinket from killing Bosses. (Greater number = more rare)").defineInRange("bossKilling", 10, 2, 100000);
         builder.pop();
         builder.push("Farming_Unlocks");
         this.farmingUnlockEnabled = builder.comment("Set to false to disable unlocking trinkets from farming.").define("farmingUnlockEnabled", true);
-        this.farming = builder.comment("Rarity of unlocking a trinket from farming. (Greater number = more rare)").defineInRange("farming", 90, 2, 100000);
+        this.farming = builder.comment("Rarity of unlocking a trinket from farming. (Greater number = more rare)").defineInRange("farming", 140, 2, 100000);
         builder.pop();
         builder.push("Ores_Mining_Unlocks");
         this.oresMiningUnlockEnabled = builder.comment("Set to false to disable unlocking trinkets from mining ores.").define("oresMiningUnlockEnabled", true);
-        this.oresMining = builder.comment("Rarity of unlocking a trinket from mining ores. (Greater number = more rare)").defineInRange("oresMining", 70, 2, 100000);
+        this.oresMining = builder.comment("Rarity of unlocking a trinket from mining ores. (Greater number = more rare)").defineInRange("oresMining", 100, 2, 100000);
         builder.pop();
         builder.push("Trading_Unlocks");
         this.tradingUnlockEnabled = builder.comment("Set to false to disable unlocking trinkets from trading.").define("tradingUnlockEnabled", true);
-        this.trading = builder.comment("Rarity of unlocking a trinket from trading. (Greater number = more rare)").defineInRange("trading", 15, 2, 100000);
+        this.trading = builder.comment("Rarity of unlocking a trinket from trading. (Greater number = more rare)").defineInRange("trading", 30, 2, 100000);
         builder.pop();
         builder.push("Wood_Cutting_Unlocks");
         this.woodCuttingUnlockEnabled = builder.comment("Set to false to disable unlocking trinkets from cutting trees.").define("woodCuttingUnlockEnabled", true);
-        this.woodCutting = builder.comment("Rarity of unlocking a trinket from cutting trees. (Greater number = more rare)").defineInRange("woodCutting", 90, 2, 100000);
+        this.woodCutting = builder.comment("Rarity of unlocking a trinket from cutting trees. (Greater number = more rare)").defineInRange("woodCutting", 170, 2, 100000);
         builder.pop();
     }
 
