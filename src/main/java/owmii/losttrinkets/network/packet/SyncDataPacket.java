@@ -3,7 +3,7 @@ package owmii.losttrinkets.network.packet;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
-import owmii.lib.client.util.Client;
+import owmii.lib.client.util.MC;
 import owmii.lib.network.IPacket;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.player.PlayerData;
@@ -36,7 +36,7 @@ public class SyncDataPacket implements IPacket<SyncDataPacket> {
     @Override
     public void handle(SyncDataPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            Client.player().ifPresent(player -> {
+            MC.player().ifPresent(player -> {
                 PlayerData data = LostTrinketsAPI.getData(player);
                 data.deserializeNBT(msg.nbt);
                 Screens.checkScreenRefresh();

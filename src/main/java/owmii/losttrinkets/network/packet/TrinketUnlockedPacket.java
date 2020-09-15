@@ -5,7 +5,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.network.NetworkEvent;
 import net.minecraftforge.registries.ForgeRegistries;
-import owmii.lib.client.util.Client;
+import owmii.lib.client.util.MC;
 import owmii.lib.network.IPacket;
 import owmii.losttrinkets.api.trinket.ITrinket;
 import owmii.losttrinkets.client.Sounds;
@@ -38,7 +38,7 @@ public class TrinketUnlockedPacket implements IPacket<TrinketUnlockedPacket> {
     @Override
     public void handle(TrinketUnlockedPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            Client.player().ifPresent(player -> {
+            MC.player().ifPresent(player -> {
                 Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(msg.key));
                 if (item instanceof ITrinket) {
                     HudHandler.add(new Toast((ITrinket) item));
