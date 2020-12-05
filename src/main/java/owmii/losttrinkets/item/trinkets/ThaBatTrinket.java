@@ -17,7 +17,7 @@ public class ThaBatTrinket extends Trinket<ThaBatTrinket> implements ITickableTr
     @Override
     public void tick(World world, BlockPos pos, PlayerEntity player) {
         if (!world.isRemote && player.ticksExisted % 90 == 0) {
-            player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 300, 0, false, false));
+            player.addPotionEffect(new EffectInstance(Effects.NIGHT_VISION, 500, 0, false, false));
         }
     }
 }
