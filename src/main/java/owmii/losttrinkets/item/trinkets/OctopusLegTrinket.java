@@ -7,7 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.trinket.Rarity;
 import owmii.losttrinkets.api.trinket.Trinket;
@@ -19,10 +19,11 @@ public class OctopusLegTrinket extends Trinket<OctopusLegTrinket> {
         super(rarity, properties);
     }
 
-    public static void onHurt(LivingHurtEvent event) {
+    public static void onAttack(LivingAttackEvent event) {
         LivingEntity entity = event.getEntityLiving();
         World world = entity.getEntityWorld();
         DamageSource source = event.getSource();
+        if (source == null) return;
         Entity immediateSource = source.getImmediateSource();
         if (entity instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) entity;

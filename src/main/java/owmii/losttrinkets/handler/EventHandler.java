@@ -31,9 +31,7 @@ public class EventHandler {
                 data.unlockDelay--;
             }
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
-            trinkets.getTickable().forEach(trinket -> {
-                trinket.tick(player.world, player.getPosition(), player);
-            });
+            trinkets.getTickable().forEach(trinket -> trinket.tick(player.world, player.getPosition(), player));
         }
     }
 
@@ -72,14 +70,20 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onAttack(LivingAttackEvent event) {
+        DamageSource source = event.getSource();
+        if (source == null) return;
         if (BlazeHeartTrinket.isImmuneToFire(event.getEntityLiving(), event.getSource())) {
             event.setCanceled(true);
         }
         MadAuraTrinket.onAttack(event);
+        OctopusLegTrinket.onAttack(event);
     }
 
     @SubscribeEvent
     public static void onHurt(LivingHurtEvent event) {
+        DamageSource source = event.getSource();
+        if (source == null) return;
+
         DarkDaggerTrinket.onHurt(event);
         DarkEggTrinket.onHurt(event);
         DropSpindleTrinket.onHurt(event);
@@ -87,13 +91,11 @@ public class EventHandler {
         GoldenSwatterTrinket.onHurt(event);
         MadPiggyTrinket.onHurt(event);
         MirrorShardTrinket.onHurt(event);
-        OctopusLegTrinket.onHurt(event);
         SerpentToothTrinket.onHurt(event);
         StarfishTrinket.onHurt(event);
         SlingshotTrinket.onHurt(event);
         WitherNailTrinket.onHurt(event);
 
-        DamageSource source = event.getSource();
         if (source.getTrueSource() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) source.getTrueSource();
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
@@ -110,6 +112,8 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onDeath(LivingDeathEvent event) {
+        DamageSource source = event.getSource();
+        if (source == null) return;
         RubyHeartTrinket.onDeath(event);
     }
 
