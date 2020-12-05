@@ -1,3 +1,7 @@
+0.1.4
+- Fixed Tha Bat trinket night vision blinking.
+- Disabled Octopus Leg trinket temporarily fix a incompatibility crash.
+
 0.1.3
 - Changed some code to trying to fix a incompatibility crash (not confirmed yet)!
 
