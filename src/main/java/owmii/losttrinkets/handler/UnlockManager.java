@@ -3,6 +3,7 @@ package owmii.losttrinkets.handler;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.text.ChatType;
@@ -17,6 +18,7 @@ import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.player.PlayerData;
 import owmii.losttrinkets.api.trinket.ITrinket;
 import owmii.losttrinkets.api.trinket.Trinkets;
+import owmii.losttrinkets.config.Configs;
 import owmii.losttrinkets.network.packet.TrinketUnlockedPacket;
 
 import javax.annotation.Nullable;
@@ -25,6 +27,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static owmii.lib.config.Config.MARKER;
+import static owmii.losttrinkets.LostTrinkets.LOGGER;
 
 public class UnlockManager {
     private static final List<ITrinket> TRINKETS = new ArrayList<>();
@@ -90,14 +95,24 @@ public class UnlockManager {
         }
     }
 
-    public static void init() {}
+    public static void init() {
+    }
 
     static {
+        List<ResourceLocation> bl = new ArrayList<>();
+        Configs.GENERAL.blackList.get().forEach(s -> {
+            try {
+                bl.add(new ResourceLocation(s));
+            } catch (Exception ignored) {
+            }
+        });
         ForgeRegistries.ITEMS.getValues().forEach(item -> {
             if (item instanceof ITrinket) {
                 ITrinket trinket = (ITrinket) item;
-                if (trinket.isUnlockable()) {
+                if (trinket.isUnlockable() && !bl.contains(item.getRegistryName())) {
                     TRINKETS.add(trinket);
+                } else {
+                    LOGGER.warn(MARKER, "Blacklisted Trinket: " + item.getRegistryName());
                 }
             }
         });

@@ -3,6 +3,8 @@ package owmii.losttrinkets;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import owmii.lib.api.IClient;
 import owmii.lib.api.IMod;
 import owmii.lib.network.Network;
@@ -22,6 +24,7 @@ import javax.annotation.Nullable;
 public class LostTrinkets implements IMod {
     public static final String MOD_ID = "losttrinkets";
     public static final Network NET = new Network(MOD_ID);
+    public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
     public LostTrinkets() {
         Blcks.REG.init();

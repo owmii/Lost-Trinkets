@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.Mod;
 import owmii.losttrinkets.LostTrinkets;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.player.PlayerData;
+import owmii.losttrinkets.api.trinket.ITrinket;
 import owmii.losttrinkets.api.trinket.Trinket;
 import owmii.losttrinkets.api.trinket.Trinkets;
 import owmii.losttrinkets.config.Configs;
@@ -115,9 +116,16 @@ public class DataManager implements ICapabilitySerializable<CompoundNBT> {
     @SubscribeEvent
     public static void loggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         Trinkets trinkets = LostTrinketsAPI.getTrinkets(event.getPlayer());
+        trinkets.getActiveTrinkets().removeIf(DataManager::isBlacklisted);
+        trinkets.getAvailableTrinkets().removeIf(DataManager::isBlacklisted);
         trinkets.initSlots(Configs.GENERAL.startSlots.get());
         sync(event.getPlayer());
     }
+
+    private static boolean isBlacklisted(ITrinket trinket) {
+        return !UnlockManager.getTrinkets().contains(trinket);
+    }
+
 
     @SubscribeEvent
     public static void loggedOut(PlayerEvent.PlayerLoggedOutEvent event) {
