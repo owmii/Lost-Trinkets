@@ -1,10 +1,15 @@
 package owmii.losttrinkets.client.screen;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Util;
+import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraftforge.fml.client.gui.GuiUtils;
 import owmii.lib.client.screen.widget.IconButton;
 import owmii.losttrinkets.LostTrinkets;
 import owmii.losttrinkets.api.LostTrinketsAPI;
@@ -15,6 +20,7 @@ import owmii.losttrinkets.config.Configs;
 import owmii.losttrinkets.network.packet.UnlockSlotPacket;
 
 import java.util.List;
+import java.util.Locale;
 
 public class TrinketsScreen extends AbstractLTScreen {
     private int x, y, columns = 10, rows = 4, btnDim = 28;
@@ -40,8 +46,12 @@ public class TrinketsScreen extends AbstractLTScreen {
                         addButton(new TrinketButton(this.x + j2 * this.btnDim, this.y + j1 * this.btnDim, Textures.TRINKET_ACTIVE_BG, trinket, button -> {
                             this.mc.displayGuiScreen(new TrinketOptionScreen(trinket, this));
                         }, (button, matrix, i1, i2) -> {
-                            renderTooltip(matrix, new ItemStack(trinket), i1, i2);
-                        }));
+                            ItemStack stack = new ItemStack(trinket);
+                            List<ITextComponent> list = Lists.newArrayList();
+                            list.add(new StringTextComponent("").append(stack.getDisplayName()).mergeStyle(TextFormatting.LIGHT_PURPLE));
+                            list.add(new TranslationTextComponent(Util.makeTranslationKey("info", Registry.ITEM.getKey(stack.getItem()))).mergeStyle(TextFormatting.GRAY));
+                            list.add(new TranslationTextComponent("gui.losttrinkets.rarity." + trinket.getRarity().name().toLowerCase(Locale.ENGLISH)).mergeStyle(TextFormatting.DARK_GRAY));
+                            GuiUtils.drawHoveringText(matrix, list, i1, i2, this.width, this.height, 240, this.font); }));
                     } else {
                         boolean locked = i + 1 > trinkets.getSlots();
                         addButton(new IconButton(this.x + j2 * this.btnDim, this.y + j1 * this.btnDim, locked ? Textures.TRINKET_BG_LOCKED : Textures.TRINKET_BG_ADD, button -> {

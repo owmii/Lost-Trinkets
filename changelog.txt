@@ -1,3 +1,7 @@
+0.1.5
+- Added trinkets blacklist to the general config.
+- Added info tooltip to active and available trinkets gui.
+
 0.1.4
 - Fixed Tha Bat trinket night vision blinking.
 - Disabled Octopus Leg trinket temporarily fix a incompatibility crash.
