@@ -16,7 +16,7 @@ public class MossyRingTrinket extends Trinket<MossyRingTrinket> implements ITick
 
     @Override
     public void tick(World world, BlockPos pos, PlayerEntity player) {
-        if (world.getGameTime() % 40 == 0) {
+        if (world.getGameTime() % 40 == 0) { //TODO fix
             for (Hand hand : Hand.values()) {
                 ItemStack stack = player.getHeldItem(hand);
                 if (!stack.isEmpty() && stack.isDamaged() && player.experienceTotal >= 1) {

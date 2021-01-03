@@ -28,9 +28,10 @@ public class MagnetoPacket implements IPacket<MagnetoPacket> {
                 AxisAlignedBB bb = new AxisAlignedBB(player.getPosition()).grow(10);
                 List<ItemEntity> entities = player.world.getEntitiesWithinAABB(ItemEntity.class, bb);
                 List<ExperienceOrbEntity> orbEntities = player.world.getEntitiesWithinAABB(ExperienceOrbEntity.class, bb);
-                entities.forEach(entity -> {
+                for (ItemEntity entity : entities) {
+                    entity.setNoPickupDelay();
                     entity.onCollideWithPlayer(player);
-                });
+                }
                 orbEntities.forEach(orb -> {
                     orb.delayBeforeCanPickup = 0;
                     player.xpCooldown = 0;

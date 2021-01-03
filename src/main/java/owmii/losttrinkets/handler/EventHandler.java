@@ -140,6 +140,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void onLooting(LootingLevelEvent event) {
         DamageSource source = event.getDamageSource();
+        if (source == null) return;
         if (source.getTrueSource() instanceof PlayerEntity) {
             PlayerEntity player = (PlayerEntity) source.getTrueSource();
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
