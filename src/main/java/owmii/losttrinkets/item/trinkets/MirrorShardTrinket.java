@@ -12,11 +12,23 @@ import owmii.losttrinkets.api.trinket.Trinkets;
 import owmii.losttrinkets.item.Itms;
 
 public class MirrorShardTrinket extends Trinket<MirrorShardTrinket> {
+    private static final ThreadLocal<Boolean> dealingMirrorDamage = ThreadLocal.withInitial(() -> false);
+
     public MirrorShardTrinket(Rarity rarity, Properties properties) {
         super(rarity, properties);
     }
 
     public static void onHurt(LivingHurtEvent event) {
+        if (dealingMirrorDamage.get()) return;
+        try {
+            dealingMirrorDamage.set(true);
+            mirrorDamage(event);
+        } finally {
+            dealingMirrorDamage.set(false);
+        }
+    }
+
+    private static void mirrorDamage(LivingHurtEvent event) {
         LivingEntity entity = event.getEntityLiving();
         DamageSource source = event.getSource();
         Entity trueSource = source.getTrueSource();
