@@ -76,7 +76,7 @@ public class EventHandler {
             event.setCanceled(true);
         }
         MadAuraTrinket.onAttack(event);
-        //OctopusLegTrinket.onAttack(event); TODO check
+        OctopusLegTrinket.onAttack(event);
     }
 
     @SubscribeEvent
