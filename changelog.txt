@@ -1,3 +1,10 @@
+0.1.8
+- Fixed Octopus Legs cause crash after being hit by Wither Skeleton, Closes #11 - Thanks to BlueAgent
+
+0.1.7
+- Fixed Magneto Dupe Bug, Closes #15 - Thanks to BlueAgent
+- Fixed Stack overflow error with Mirror Shard, Closes #9 - Thanks to BlueAgent
+
 0.1.6
 - Fixed Possible Incompatibilities with Scaling Health Mod, Closes #17.
 
