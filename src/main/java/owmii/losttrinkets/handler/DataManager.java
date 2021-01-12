@@ -102,7 +102,7 @@ public class DataManager implements ICapabilitySerializable<CompoundNBT> {
             ServerPlayerEntity player = (ServerPlayerEntity) entity;
             PlayerData data = LostTrinketsAPI.getData(player);
             if (data.isSync()) {
-                LostTrinkets.NET.toClient(new SyncDataPacket(data.serializeNBT()), player);
+                LostTrinkets.NET.toTrackingAndSelf(new SyncDataPacket(player), player);
                 data.setSync(false);
             }
         }
@@ -139,9 +139,18 @@ public class DataManager implements ICapabilitySerializable<CompoundNBT> {
         sync(event.getPlayer());
     }
 
+    @SubscribeEvent
+    public static void trackPlayer(PlayerEvent.StartTracking event) {
+        Entity target = event.getTarget();
+        // When a player starts tracking another player entity, sync the target to them
+        if (target instanceof ServerPlayerEntity) {
+            LostTrinkets.NET.toClient(new SyncDataPacket((ServerPlayerEntity) target), event.getPlayer());
+        }
+    }
+
     static void sync(PlayerEntity player) {
         if (player instanceof ServerPlayerEntity) {
-            LostTrinkets.NET.toClient(new SyncDataPacket(LostTrinketsAPI.getData(player).serializeNBT()), player);
+            LostTrinkets.NET.toClient(new SyncDataPacket(player), player);
         }
     }
 }
