@@ -1,3 +1,11 @@
+0.1.10
+- Added config for unlock cooldown delay - Thanks to BlueAgent
+- Added config for non-random trinkets - Thanks to BlueAgent
+
+0.1.9
+- Fixed Tha Ghost does not work bug, Closes #20 - Thanks to BlueAgent
+- Updated Lollipop to 3.2.4.
+
 0.1.8
 - Fixed Octopus Legs cause crash after being hit by Wither Skeleton, Closes #11 - Thanks to BlueAgent
 
@@ -38,4 +46,3 @@
 - Clean-Up assets from junk.
 
 0.0.1
-- First release.
