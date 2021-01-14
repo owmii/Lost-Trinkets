@@ -68,7 +68,7 @@ public class UnlockManager {
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
             if (trinkets.give(trinket)) {
                 if (checkDelay) {
-                    data.unlockDelay = 2400;
+                    data.unlockDelay = Configs.GENERAL.unlockCooldown.get();
                 }
                 if (doNotification) {
                     LostTrinkets.NET.toClient(new TrinketUnlockedPacket(Objects.requireNonNull(trinket.getItem().getRegistryName()).toString()), player);

@@ -8,6 +8,7 @@ import java.util.List;
 
 public class GeneralConfig {
     public final ForgeConfigSpec.BooleanValue unlockEnabled;
+    public final ForgeConfigSpec.LongValue unlockCooldown;
     public final ForgeConfigSpec.ConfigValue<List<String>> blackList;
     public final ForgeConfigSpec.ConfigValue<List<String>> nonRandom;
 
@@ -35,6 +36,7 @@ public class GeneralConfig {
         builder.pop();
 
         this.unlockEnabled = builder.comment("Set to false to disable the default way of unlocking trinkets.").define("unlockEnabled", true);
+        this.unlockCooldown = builder.comment("Cooldown (ticks) between unlocks").defineInRange("unlockCooldown", 2400L, 0L, 1728000L);
         this.blackList = builder
                 .comment("List of banned trinkets eg: [\"losttrinkets:piggy\", \"losttrinkets:magical_feathers\"]"
                         , "The trinkets listed in here will also be removed from players that already unlocked them.")
