@@ -1,5 +1,6 @@
 package owmii.losttrinkets.handler;
 
+import com.google.common.collect.Sets;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -26,13 +27,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static owmii.lib.config.Config.MARKER;
 import static owmii.losttrinkets.LostTrinkets.LOGGER;
 
 public class UnlockManager {
-    private static final List<ITrinket> TRINKETS = new ArrayList<>();
+    private static final Set<ITrinket> TRINKETS = Sets.newLinkedHashSet();
+    private static final Set<ITrinket> UNLOCKABLE_TRINKETS = Sets.newLinkedHashSet();
     private static final List<WeightedTrinket> WEIGHTED_TRINKETS = new ArrayList<>();
 
     @Nullable
@@ -42,7 +45,7 @@ public class UnlockManager {
             if (!checkDelay || data.unlockDelay <= 0) {
                 Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
                 WEIGHTED_TRINKETS.clear();
-                WEIGHTED_TRINKETS.addAll(TRINKETS.stream()
+                WEIGHTED_TRINKETS.addAll(UNLOCKABLE_TRINKETS.stream()
                         .filter(trinket -> !trinkets.has(trinket))
                         .map(WeightedTrinket::new)
                         .collect(Collectors.toList()));
@@ -65,7 +68,7 @@ public class UnlockManager {
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
             if (trinkets.give(trinket)) {
                 if (checkDelay) {
-                    data.unlockDelay = 2400;
+                    data.unlockDelay = Configs.GENERAL.unlockCooldown.get();
                 }
                 if (doNotification) {
                     LostTrinkets.NET.toClient(new TrinketUnlockedPacket(Objects.requireNonNull(trinket.getItem().getRegistryName()).toString()), player);
@@ -99,26 +102,31 @@ public class UnlockManager {
     }
 
     static {
-        List<ResourceLocation> bl = new ArrayList<>();
-        Configs.GENERAL.blackList.get().forEach(s -> {
-            try {
-                bl.add(new ResourceLocation(s));
-            } catch (Exception ignored) {
-            }
-        });
+        Set<ResourceLocation> banned = Configs.GENERAL.blackList.get().stream()
+                .map(ResourceLocation::new)
+                .collect(Collectors.toCollection(Sets::newHashSet));
+        Set<ResourceLocation> nonRandom = Configs.GENERAL.nonRandom.get().stream()
+                .map(ResourceLocation::new)
+                .collect(Collectors.toCollection(Sets::newHashSet));
         ForgeRegistries.ITEMS.getValues().forEach(item -> {
             if (item instanceof ITrinket) {
                 ITrinket trinket = (ITrinket) item;
-                if (trinket.isUnlockable() && !bl.contains(item.getRegistryName())) {
-                    TRINKETS.add(trinket);
+                ResourceLocation rl = item.getRegistryName();
+                if (banned.contains(rl)) {
+                    LOGGER.warn(MARKER, "Banned Trinket: " + rl);
                 } else {
-                    LOGGER.warn(MARKER, "Blacklisted Trinket: " + item.getRegistryName());
+                    TRINKETS.add(trinket);
+                    if (trinket.isUnlockable() && !nonRandom.contains(rl)) {
+                        UNLOCKABLE_TRINKETS.add(trinket);
+                    } else {
+                        LOGGER.warn(MARKER, "Not Unlockable Trinket: " + rl);
+                    }
                 }
             }
         });
     }
 
-    public static List<ITrinket> getTrinkets() {
-        return Collections.unmodifiableList(TRINKETS);
+    public static Set<ITrinket> getTrinkets() {
+        return Collections.unmodifiableSet(TRINKETS);
     }
 }
