@@ -8,6 +8,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
@@ -70,10 +71,16 @@ public class UnlockHandler {
         }
     }
 
+    private static void queueUnlock(PlayerEntity player, Type type) {
+        if (!player.world.isRemote && !(player instanceof FakePlayer)) {
+            MAP.put(player.getUniqueID(), type);
+        }
+    }
+
     public static void trade(PlayerEntity player) {
         if (Configs.GENERAL.unlockEnabled.get() && Configs.GENERAL.tradingUnlockEnabled.get()) {
             if (!player.world.isRemote) {
-                MAP.put(player.getUniqueID(), Type.TRADING);
+                queueUnlock(player, Type.TRADING);
             }
         }
     }
@@ -88,10 +95,10 @@ public class UnlockHandler {
                 if (!player.world.isRemote) {
                     if (target.isNonBoss()) {
                         if (Configs.GENERAL.killingUnlockEnabled.get()) {
-                            MAP.put(player.getUniqueID(), Type.KILL);
+                            queueUnlock(player, Type.KILL);
                         }
                     } else if (Configs.GENERAL.bossKillingUnlockEnabled.get()) {
-                        MAP.put(player.getUniqueID(), Type.BOSS_KILL);
+                        queueUnlock(player, Type.BOSS_KILL);
                     }
                 }
             }
@@ -103,15 +110,15 @@ public class UnlockHandler {
             if (!player.world.isRemote) {
                 if (Tags.Blocks.ORES.contains(state.getBlock())) {
                     if (Configs.GENERAL.oresMiningUnlockEnabled.get()) {
-                        MAP.put(player.getUniqueID(), Type.ORE_MINE);
+                        queueUnlock(player, Type.ORE_MINE);
                     }
                 } else if (BlockTags.CROPS.contains(state.getBlock())) {
                     if (Configs.GENERAL.farmingUnlockEnabled.get()) {
-                        MAP.put(player.getUniqueID(), Type.FARM_HARVEST);
+                        queueUnlock(player, Type.FARM_HARVEST);
                     }
                 } else if (BlockTags.LOGS.contains(state.getBlock())) {
                     if (Configs.GENERAL.woodCuttingUnlockEnabled.get()) {
-                        MAP.put(player.getUniqueID(), Type.WOOD_CUTTING);
+                        queueUnlock(player, Type.WOOD_CUTTING);
                     }
                 }
             }
@@ -123,7 +130,7 @@ public class UnlockHandler {
         if (Configs.GENERAL.unlockEnabled.get() && Configs.GENERAL.farmingUnlockEnabled.get()) {
             PlayerEntity player = event.getPlayer();
             if (!player.world.isRemote) {
-                MAP.put(player.getUniqueID(), Type.FARM_HARVEST);
+                queueUnlock(player, Type.FARM_HARVEST);
             }
         }
     }
@@ -133,7 +140,7 @@ public class UnlockHandler {
         if (Configs.GENERAL.unlockEnabled.get() && Configs.GENERAL.farmingUnlockEnabled.get()) {
             PlayerEntity player = event.getPlayer();
             if (!player.world.isRemote) {
-                MAP.put(player.getUniqueID(), Type.FARM_HARVEST);
+                queueUnlock(player, Type.FARM_HARVEST);
             }
         }
     }
