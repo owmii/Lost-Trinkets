@@ -16,7 +16,7 @@ public class VillagerEntityMixin {
     public void getPlayerReputation(PlayerEntity player, CallbackInfoReturnable<Integer> cir) {
         Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
         if (trinkets.isActive(Itms.KARMA)) {
-            cir.setReturnValue(100);
+            cir.setReturnValue(cir.getReturnValueI() + 100);
         }
     }
 }
