@@ -58,6 +58,7 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void joinWorld(EntityJoinWorldEvent event) {
+        OctopickTrinket.collectDrops(event);
         BigFootTrinket.joinWorld(event.getEntity());
     }
 
@@ -168,7 +169,6 @@ public class EventHandler {
 
     @SubscribeEvent
     public static void onBreak(BlockEvent.BreakEvent event) {
-        PlayerEntity player = event.getPlayer();
-        OctopickTrinket.mine(player, player.world, event.getPos(), event.getState());
+        OctopickTrinket.onBreak(event);
     }
 }
