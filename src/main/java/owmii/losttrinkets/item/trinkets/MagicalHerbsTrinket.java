@@ -28,7 +28,7 @@ public class MagicalHerbsTrinket extends Trinket<MagicalHerbsTrinket> {
             Trinkets trinkets = LostTrinketsAPI.getTrinkets((PlayerEntity) entity);
             if (trinkets.isActive(Itms.MAGICAL_HERBS)) {
                 Effect effect = event.getPotionEffect().getPotion();
-                if (!effect.getEffectType().equals(EffectType.BENEFICIAL)) {
+                if (effect.getEffectType().equals(EffectType.HARMFUL)) {
                     event.setResult(Event.Result.DENY);
                 }
             }
@@ -41,7 +41,7 @@ public class MagicalHerbsTrinket extends Trinket<MagicalHerbsTrinket> {
         Iterator<EffectInstance> iterator = player.getActivePotionMap().values().iterator();
         while (iterator.hasNext()) {
             EffectInstance effect = iterator.next();
-            if (!effect.getPotion().getEffectType().equals(EffectType.BENEFICIAL)) {
+            if (effect.getPotion().getEffectType().equals(EffectType.HARMFUL)) {
                 player.onFinishedPotionEffect(effect);
                 iterator.remove();
             }
