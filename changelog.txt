@@ -1,3 +1,13 @@
+0.1.13
+- Fixed Magical Herbs Trinket removes Neutral effects, Closes #33 - Thanks to BlueAgent
+
+0.1.12
+- Fixed Octopick incompatible with silk touch, Closes #19 - Thanks to BlueAgent
+- Fixed Mining Trinkets not awarding XP, Closes #6 - Thanks to BlueAgent
+
+0.1.11
+- Fixed Karma villager discount does not consider native discounts, Closes #30 - Thanks to BlueAgent
+
 0.1.10
 - Added config for unlock cooldown delay - Thanks to BlueAgent
 - Added config for non-random trinkets - Thanks to BlueAgent

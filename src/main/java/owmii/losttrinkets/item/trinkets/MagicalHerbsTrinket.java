@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.potion.Effect;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.EffectType;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.living.PotionEvent;
@@ -28,7 +29,8 @@ public class MagicalHerbsTrinket extends Trinket<MagicalHerbsTrinket> {
             Trinkets trinkets = LostTrinketsAPI.getTrinkets((PlayerEntity) entity);
             if (trinkets.isActive(Itms.MAGICAL_HERBS)) {
                 Effect effect = event.getPotionEffect().getPotion();
-                if (effect.getEffectType().equals(EffectType.HARMFUL)) {
+                if (effect.getEffectType().equals(EffectType.HARMFUL) ||
+                        effect.equals(Effects.BAD_OMEN)) {
                     event.setResult(Event.Result.DENY);
                 }
             }
@@ -41,7 +43,8 @@ public class MagicalHerbsTrinket extends Trinket<MagicalHerbsTrinket> {
         Iterator<EffectInstance> iterator = player.getActivePotionMap().values().iterator();
         while (iterator.hasNext()) {
             EffectInstance effect = iterator.next();
-            if (effect.getPotion().getEffectType().equals(EffectType.HARMFUL)) {
+            if (effect.getPotion().getEffectType().equals(EffectType.HARMFUL) ||
+                    effect.getPotion().equals(Effects.BAD_OMEN)) {
                 player.onFinishedPotionEffect(effect);
                 iterator.remove();
             }
