@@ -73,7 +73,7 @@ public class UnlockManager {
                 if (doNotification) {
                     LostTrinkets.NET.toClient(new TrinketUnlockedPacket(Objects.requireNonNull(trinket.getItem().getRegistryName()).toString()), player);
                     ItemStack stack = new ItemStack(trinket);
-                    ITextComponent trinketName = stack.getDisplayName().copyRaw().mergeStyle(TextFormatting.GRAY).modifyStyle(style -> {
+                    ITextComponent trinketName = stack.getDisplayName().deepCopy().modifyStyle(style -> {
                         return style.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemHover(stack)));
                     });
                     Server.get().getPlayerList().func_232641_a_(new TranslationTextComponent("chat.losttrinkets.unlocked.trinket", player.getDisplayName(), trinketName).mergeStyle(TextFormatting.DARK_AQUA), ChatType.SYSTEM, Util.DUMMY_UUID);

@@ -8,6 +8,8 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.network.NetworkEvent;
 import owmii.lib.network.IPacket;
+import owmii.losttrinkets.api.LostTrinketsAPI;
+import owmii.losttrinkets.item.Itms;
 
 import java.util.List;
 import java.util.function.Supplier;
@@ -25,7 +27,7 @@ public class MagnetoPacket implements IPacket<MagnetoPacket> {
     public void handle(MagnetoPacket msg, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             PlayerEntity player = ctx.get().getSender();
-            if (player != null) {
+            if (player != null && LostTrinketsAPI.getTrinkets(player).isActive(Itms.MAGNETO)) {
                 AxisAlignedBB bb = new AxisAlignedBB(player.getPosition()).grow(10);
                 List<ItemEntity> entities = player.world.getEntitiesWithinAABB(ItemEntity.class, bb);
                 List<ExperienceOrbEntity> orbEntities = player.world.getEntitiesWithinAABB(ExperienceOrbEntity.class, bb);

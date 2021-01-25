@@ -50,7 +50,13 @@ public class Trinket<T extends Trinket> extends Item implements ITrinket {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        addTrinketDescription(stack, tooltip);
         tooltip.add(new TranslationTextComponent("gui.losttrinkets.rarity." + getRarity().name().toLowerCase(Locale.ENGLISH)).mergeStyle(TextFormatting.DARK_GRAY));
+    }
+
+    @Override
+    public ITextComponent getDisplayName(ItemStack stack) {
+        return super.getDisplayName(stack).deepCopy().mergeStyle(this.getRarity().getStyle());
     }
 
     @Override
