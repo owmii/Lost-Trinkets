@@ -5,6 +5,7 @@
   "refmap": "losttrinkets.refmap.json",
   "mixins": [
 	"BlockMixin",
+    "EntityPredicateMixin",
 	"ItemStackMixin",
 	"PlayerEntityMixin",
 	"AbstractBlockStateMixin",

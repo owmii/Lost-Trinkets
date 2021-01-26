@@ -18,6 +18,7 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
     private final List<ITrinket> available = new ArrayList<>();
     private final List<ITrinket> active = new ArrayList<>();
     private final List<ITickableTrinket> tickable = new ArrayList<>();
+    private final List<ITargetingTrinket> targeting = new ArrayList<>();
     private final PlayerData data;
     private int slots = 1;
     private boolean slotsSet;
@@ -68,6 +69,7 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
         ListNBT activeTrinkets = nbt.getList("active_trinkets", Constants.NBT.TAG_COMPOUND);
         this.active.clear();
         this.tickable.clear();
+        this.targeting.clear();
         for (int i = 0; i < activeTrinkets.size(); i++) {
             CompoundNBT nbt1 = activeTrinkets.getCompound(i);
             Item item = ForgeRegistries.ITEMS.getValue(new ResourceLocation(nbt1.getString("trinket")));
@@ -77,6 +79,9 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
                     this.active.add(trinket);
                     if (trinket instanceof ITickableTrinket) {
                         this.tickable.add((ITickableTrinket) trinket);
+                    }
+                    if (trinket instanceof ITargetingTrinket) {
+                        this.targeting.add((ITargetingTrinket) trinket);
                     }
                 }
             }
@@ -143,6 +148,9 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
             if (trinket instanceof ITickableTrinket) {
                 this.tickable.remove(trinket);
             }
+            if (trinket instanceof ITargetingTrinket) {
+                this.targeting.remove(trinket);
+            }
             if (trinket instanceof Trinket) {
                 ((Trinket) trinket).removeAttributes(player);
             }
@@ -158,6 +166,9 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
             this.active.add(trinket);
             if (trinket instanceof ITickableTrinket) {
                 this.tickable.add((ITickableTrinket) trinket);
+            }
+            if (trinket instanceof ITargetingTrinket) {
+                this.targeting.add((ITargetingTrinket) trinket);
             }
             if (trinket instanceof Trinket) {
                 ((Trinket) trinket).applyAttributes(player);
@@ -191,5 +202,9 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
 
     public List<ITickableTrinket> getTickable() {
         return this.tickable;
+    }
+
+    public List<ITargetingTrinket> getTargeting() {
+        return this.targeting;
     }
 }
