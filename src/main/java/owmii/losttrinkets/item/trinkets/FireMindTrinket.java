@@ -2,12 +2,14 @@ package owmii.losttrinkets.item.trinkets;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.trinket.Rarity;
 import owmii.losttrinkets.api.trinket.Trinket;
 import owmii.losttrinkets.api.trinket.Trinkets;
+import owmii.losttrinkets.handler.TargetHandler;
 import owmii.losttrinkets.item.Itms;
 
 public class FireMindTrinket extends Trinket<FireMindTrinket> {
@@ -20,6 +22,9 @@ public class FireMindTrinket extends Trinket<FireMindTrinket> {
         if (entity instanceof MobEntity) {
             MobEntity mob = (MobEntity) entity;
             LivingEntity target = mob.getAttackTarget();
+            if (target == null) {
+                target = TargetHandler.getBrainMemorySafe(mob.getBrain(), MemoryModuleType.ATTACK_TARGET).orElse(null);
+            }
             if (target instanceof PlayerEntity) {
                 PlayerEntity player = (PlayerEntity) target;
                 Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);

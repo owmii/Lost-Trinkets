@@ -1,39 +1,31 @@
 package owmii.losttrinkets.item.trinkets;
 
+import net.minecraft.entity.CreatureEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import owmii.losttrinkets.api.LostTrinketsAPI;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import owmii.losttrinkets.api.trinket.ITargetingTrinket;
 import owmii.losttrinkets.api.trinket.Rarity;
 import owmii.losttrinkets.api.trinket.Trinket;
-import owmii.losttrinkets.api.trinket.Trinkets;
 import owmii.losttrinkets.entity.ai.BigFootGoal;
-import owmii.losttrinkets.item.Itms;
 
-public class BigFootTrinket extends Trinket<BigFootTrinket> {
+public class BigFootTrinket extends Trinket<BigFootTrinket> implements ITargetingTrinket {
     public BigFootTrinket(Rarity rarity, Properties properties) {
         super(rarity, properties);
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public static void joinWorld(Entity entity) {
-        if (entity instanceof MonsterEntity) {
-            MonsterEntity mob = (MonsterEntity) entity;
-            if (mob.isChild()) {
-                mob.goalSelector.addGoal(1, new BigFootGoal(mob));
-            }
+    public static void addAvoidGoal(EntityJoinWorldEvent event) {
+        Entity entity = event.getEntity();
+        if (entity instanceof CreatureEntity) {
+            CreatureEntity mob = (CreatureEntity) entity;
+            mob.goalSelector.addGoal(-1, new BigFootGoal(mob));
         }
     }
 
-    public static void setTarget(LivingEntity entity, LivingEntity target) {
-        if (entity instanceof MonsterEntity && entity.isChild() && entity.isNonBoss()) {
-            if (target instanceof PlayerEntity) {
-                PlayerEntity player = (PlayerEntity) target;
-                Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
-                if (trinkets.isActive(Itms.BIG_FOOT)) {
-                    ((MonsterEntity) entity).setAttackTarget(null);
-                }
-            }
-        }
+    public boolean preventTargeting(MobEntity mob, PlayerEntity player, boolean notAttacked) {
+        return mob.isChild();
     }
 }

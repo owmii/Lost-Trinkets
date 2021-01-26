@@ -8,12 +8,13 @@ import net.minecraft.pathfinding.Path;
 import net.minecraft.pathfinding.PathNavigator;
 import net.minecraft.util.math.vector.Vector3d;
 import owmii.losttrinkets.api.LostTrinketsAPI;
-import owmii.losttrinkets.api.trinket.Trinkets;
 import owmii.losttrinkets.item.Itms;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
 
 public class BigFootGoal extends Goal {
+    public static final double SPEED = 1.4;
     protected final PathNavigator navigation;
     private CreatureEntity entity;
     @Nullable
@@ -22,13 +23,14 @@ public class BigFootGoal extends Goal {
     protected PlayerEntity player;
 
     public BigFootGoal(CreatureEntity entity) {
+        this.setMutexFlags(EnumSet.of(Flag.MOVE));
         this.navigation = entity.getNavigator();
         this.entity = entity;
     }
 
     @Override
     public void startExecuting() {
-        this.navigation.setPath(this.path, 1.4F);
+        this.navigation.setPath(this.path, SPEED);
     }
 
     @Override
@@ -42,11 +44,17 @@ public class BigFootGoal extends Goal {
     }
 
     @Override
+    public void tick() {
+        // Speed gets set very slow sometimes without this
+        this.navigation.setSpeed(SPEED);
+    }
+
+    @Override
     public boolean shouldExecute() {
-        this.player = this.entity.world.getClosestPlayer(this.entity, 8.0D);
-        if (this.player != null && this.entity.isNonBoss()) {
-            Trinkets trinkets = LostTrinketsAPI.getTrinkets(this.player);
-            if (trinkets.isActive(Itms.BIG_FOOT)) {
+        if (this.entity.isNonBoss() && this.entity.isChild()) {
+            this.player = this.entity.world.getClosestPlayer(this.entity.getPosX(), this.entity.getPosY(), this.entity.getPosZ(), 8.0,
+                    target -> target instanceof PlayerEntity && LostTrinketsAPI.getTrinkets((PlayerEntity) target).isActive(Itms.BIG_FOOT));
+            if (this.player != null) {
                 Vector3d vector3d = RandomPositionGenerator.findRandomTargetBlockAwayFrom(this.entity, 16, 7, this.player.getPositionVec());
                 if (vector3d == null) {
                     return false;

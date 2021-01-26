@@ -4,20 +4,21 @@
   "compatibilityLevel": "JAVA_8",
   "refmap": "losttrinkets.refmap.json",
   "mixins": [
-	"BlockMixin",
-	"ItemStackMixin",
-	"PlayerEntityMixin",
-	"AbstractBlockStateMixin",
-	"WebBlockMixin",
-	"VillagerEntityMixin",
-	"MerchantResultSlotMixin",
-	"EnchantmentContainerMixin",
-	"EnderPearlItemMixin",
-	"PigEntityMixin"
+    "BlockMixin",
+    "EntityPredicateMixin",
+    "ItemStackMixin",
+    "PlayerEntityMixin",
+    "AbstractBlockStateMixin",
+    "WebBlockMixin",
+    "VillagerEntityMixin",
+    "MerchantResultSlotMixin",
+    "EnchantmentContainerMixin",
+    "EnderPearlItemMixin",
+    "PigEntityMixin"
   ],
   "client": [],
   "injectors": {
-	"defaultRequire": 1
+    "defaultRequire": 1
   },
   "minVersion": "0.8"
 }

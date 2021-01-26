@@ -59,14 +59,7 @@ public class EventHandler {
     @SubscribeEvent
     public static void joinWorld(EntityJoinWorldEvent event) {
         OctopickTrinket.collectDrops(event);
-        BigFootTrinket.joinWorld(event.getEntity());
-    }
-
-    @SubscribeEvent
-    public static void setTarget(LivingSetAttackTargetEvent event) {
-        BigFootTrinket.setTarget(event.getEntityLiving(), event.getTarget());
-        ThaGhostTrinket.onSetAttackTarget(event);
-        ThaWizardTrinket.onSetAttackTarget(event);
+        BigFootTrinket.addAvoidGoal(event);
     }
 
     @SubscribeEvent

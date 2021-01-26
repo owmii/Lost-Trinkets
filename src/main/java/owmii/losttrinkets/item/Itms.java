@@ -35,7 +35,7 @@ public class Itms {
     public static final Trinket THA_WIZARD = REG.register("tha_wizard", new ThaWizardTrinket(Rarity.RARE, new Item.Properties().group(ItemGroups.MAIN)));
     public static final Trinket THA_BAT = REG.register("tha_bat", new ThaBatTrinket(Rarity.RARE, new Item.Properties().group(ItemGroups.MAIN)));
     public static final Trinket BLANK_EYES = REG.register("blank_eyes", new Trinket(Rarity.RARE, new Item.Properties().group(ItemGroups.MAIN)));
-    public static final Trinket BIG_FOOT = REG.register("big_foot", new WarmVoidTrinket(Rarity.RARE, new Item.Properties().group(ItemGroups.MAIN)));
+    public static final Trinket BIG_FOOT = REG.register("big_foot", new BigFootTrinket(Rarity.RARE, new Item.Properties().group(ItemGroups.MAIN)));
 
     public static final Trinket BOOK_O_ENCHANTING = REG.register("book_o_enchanting", new Trinket(Rarity.MASTER, new Item.Properties().group(ItemGroups.MAIN)));
     public static final Trinket WARM_VOID = REG.register("warm_void", new WarmVoidTrinket(Rarity.MASTER, new Item.Properties().group(ItemGroups.MAIN)));
