@@ -1,5 +1,6 @@
 package owmii.losttrinkets.handler;
 
+import net.minecraft.entity.IAngerable;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.brain.Brain;
@@ -13,6 +14,7 @@ import owmii.losttrinkets.api.LostTrinketsAPI;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
+import java.util.UUID;
 
 @Mod.EventBusSubscriber
 public class TargetHandler {
@@ -27,7 +29,8 @@ public class TargetHandler {
                     return false;
                 }
 
-                boolean notAttacked = !player.equals(mob.getAttackingEntity());
+                // Not recently attacked by the player
+                boolean notAttacked = !player.equals(mob.getRevengeTarget()) && !player.equals(mob.getCombatTracker().getBestAttacker());
 
                 return LostTrinketsAPI.getTrinkets(player).getTargeting().stream()
                         .anyMatch(trinket -> trinket.preventTargeting(mob, player, notAttacked));
@@ -54,6 +57,15 @@ public class TargetHandler {
         LivingEntity living = event.getEntityLiving();
         if (living instanceof MobEntity) {
             MobEntity mob = (MobEntity) living;
+            // Remove anger target (mainly for sounds)
+            if (mob instanceof IAngerable) {
+                IAngerable angerable = (IAngerable) mob;
+                UUID targetUUID = angerable.getAngerTarget();
+                if (targetUUID != null && preventTargeting(mob, mob.world.getPlayerByUuid(targetUUID))) {
+                    // Resets anger timer and target
+                    angerable.func_241356_K__();
+                }
+            }
             // Remove attack target
             if (preventTargeting(mob, mob.getAttackTarget())) {
                 mob.setAttackTarget(null);
