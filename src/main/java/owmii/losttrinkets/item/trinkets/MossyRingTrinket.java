@@ -16,10 +16,11 @@ public class MossyRingTrinket extends Trinket<MossyRingTrinket> implements ITick
 
     @Override
     public void tick(World world, BlockPos pos, PlayerEntity player) {
-        if (world.getGameTime() % 40 == 0) { //TODO fix
+        // Don't repair item if player is currently swinging (workaround for MinecraftForge#7606 and MC-176559)
+        if (world.getGameTime() % 40 == 0 && !player.isSwingInProgress) {
             for (Hand hand : Hand.values()) {
                 ItemStack stack = player.getHeldItem(hand);
-                if (!stack.isEmpty() && stack.isDamaged() && player.experienceTotal >= 1) {
+                if (!stack.isEmpty() && stack.isDamaged()) {
                     stack.setDamage(stack.getDamage() - 1);
                     break;
                 }
