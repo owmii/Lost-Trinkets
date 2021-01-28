@@ -14,7 +14,6 @@ import owmii.losttrinkets.entity.ai.BigFootGoal;
 public class BigFootTrinket extends Trinket<BigFootTrinket> implements ITargetingTrinket {
     public BigFootTrinket(Rarity rarity, Properties properties) {
         super(rarity, properties);
-        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public static void addAvoidGoal(EntityJoinWorldEvent event) {
