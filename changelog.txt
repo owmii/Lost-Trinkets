@@ -1,3 +1,25 @@
+0.1.18
+- Re-Fixed a server crash, Closes #48
+
+0.1.17
+- Fixed a server crash, Closes #46 - Thanks to BlueAgent
+
+0.1.16
+- Fixed Mossy ring resets mining progress, Closes #16 - Thanks to BlueAgent
+- Fixed Mossy ring/belt required the player to have experience, Closes #43 - Thanks to BlueAgent
+
+0.1.15
+- Fixed "Big Foot" trinket doesn't work on baby hoglins and baby zoglins, Closes #37 - Thanks to BlueAgent
+- Fixed "Fire Mind" trinket does not set hoglins on fire, Closes #38 - Thanks to BlueAgent
+- Fixed Dark Vexes become aggressive towards the player, Closes #39 - Thanks to BlueAgent
+- Fixed WarmVoidTrinket being registered instead of BigFootTrinket - Thanks to BlueAgent
+- Fixed Tha Ghost trinket functionality - Thanks to BlueAgent
+
+0.1.14
+- Fixed Lost trinkets with right click activations don't work, Closes #36 - Thanks to BlueAgent
+- Fixed Silver Nail Format Error, Closes #40 - Thanks to BlueAgent
+- Added Korean translation - Thanks to chironader
+
 0.1.13
 - Fixed Magical Herbs Trinket removes Neutral effects, Closes #33 - Thanks to BlueAgent
 
