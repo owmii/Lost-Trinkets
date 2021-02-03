@@ -1,3 +1,6 @@
+0.1.19
+- Add Added option for maximum trinket slots - Thanks to BlueAgent
+
 0.1.18
 - Re-Fixed a server crash, Closes #48
 
