@@ -53,6 +53,9 @@ public class TrinketsScreen extends AbstractLTScreen {
                         }));
                     } else {
                         boolean locked = i + 1 > trinkets.getSlots();
+                        if (locked && cost < 0) {
+                            break label;
+                        }
                         addButton(new IconButton(this.x + j2 * this.btnDim, this.y + j1 * this.btnDim, locked ? Textures.TRINKET_BG_LOCKED : Textures.TRINKET_BG_ADD, button -> {
                             if (locked) {
                                 LostTrinkets.NET.toServer(new UnlockSlotPacket());

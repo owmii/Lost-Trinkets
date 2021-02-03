@@ -27,11 +27,14 @@ public class UnlockSlotPacket implements IPacket<UnlockSlotPacket> {
             if (player != null) {
                 Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
                 int cost = Configs.GENERAL.calcCost(trinkets);
-                if (player.isCreative()) {
-                    trinkets.unlockSlot();
-                } else if (player.experienceLevel >= cost) {
-                    trinkets.unlockSlot();
-                    player.addExperienceLevel(-cost);
+                if (cost >= 0) {
+                    if (player.isCreative()) {
+                        trinkets.unlockSlot();
+                    } else if (player.experienceLevel >= cost) {
+                        if (trinkets.unlockSlot()) {
+                            player.addExperienceLevel(-cost);
+                        }
+                    }
                 }
             }
         });

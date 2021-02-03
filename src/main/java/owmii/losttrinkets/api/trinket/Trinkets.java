@@ -9,6 +9,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import owmii.losttrinkets.api.player.PlayerData;
+import owmii.losttrinkets.config.Configs;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,7 +90,7 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
     }
 
     public boolean unlockSlot() {
-        if (this.slots < 40) {
+        if (this.slots < Configs.GENERAL.maxSlots.get()) {
             this.slots++;
             this.data.setSync(true);
             return true;

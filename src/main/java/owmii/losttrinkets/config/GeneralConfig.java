@@ -13,6 +13,7 @@ public class GeneralConfig {
     public final ForgeConfigSpec.ConfigValue<List<String>> nonRandom;
 
     public final ForgeConfigSpec.IntValue startSlots;
+    public final ForgeConfigSpec.IntValue maxSlots;
     public final ForgeConfigSpec.IntValue slotCost;
     public final ForgeConfigSpec.IntValue slotUpFactor;
     public final ForgeConfigSpec.BooleanValue killingUnlockEnabled;
@@ -31,6 +32,7 @@ public class GeneralConfig {
     public GeneralConfig(ForgeConfigSpec.Builder builder) {
         builder.push("Trinket_Slots");
         this.startSlots = builder.comment("Numbers of trinket slots the player will start with (Only effect newer players!!).").defineInRange("startSlots", 1, 0, 40);
+        this.maxSlots = builder.comment("Maximum number of trinket slots the player can have (does not remove unlocked slots)").defineInRange("maxSlots", 40, 1, 40);
         this.slotCost = builder.comment("Levels of xp needed to unlock a trinket slot.").defineInRange("slotCost", 15, 0, 1000);
         this.slotUpFactor = builder.comment("Amount of Xp levels added to the next unlocking cost.").defineInRange("slotUpFactor", 3, 0, 20);
         builder.pop();
@@ -72,7 +74,20 @@ public class GeneralConfig {
         builder.pop();
     }
 
+    /**
+     * Get the cost for the next slot.
+     *
+     * @return -1 iff cannot be unlocked, otherwise the levels required (can be 0)
+     */
     public int calcCost(Trinkets trinkets) {
-        return this.slotCost.get() + ((trinkets.getSlots() - this.startSlots.get()) * this.slotUpFactor.get());
+        int slots = trinkets.getSlots();
+        if (slots >= this.maxSlots.get()) {
+            return -1;
+        }
+        int startSlots = this.startSlots.get();
+        if (slots < startSlots) {
+            return 0;
+        }
+        return this.slotCost.get() + ((slots - startSlots) * this.slotUpFactor.get());
     }
 }
