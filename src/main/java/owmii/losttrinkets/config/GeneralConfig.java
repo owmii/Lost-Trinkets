@@ -34,7 +34,7 @@ public class GeneralConfig {
         this.startSlots = builder.comment("Numbers of trinket slots the player will start with (Only effect newer players!!).").defineInRange("startSlots", 1, 0, 40);
         this.maxSlots = builder.comment("Maximum number of trinket slots the player can have (does not remove unlocked slots)").defineInRange("maxSlots", 40, 1, 40);
         this.slotCost = builder.comment("Levels of xp needed to unlock a trinket slot.").defineInRange("slotCost", 15, 0, 1000);
-        this.slotUpFactor = builder.comment("Amount of Xp levels added to the next unlocking cost.").defineInRange("slotUpFactor", 3, 0, 20);
+        this.slotUpFactor = builder.comment("Amount of Xp levels added to the next unlocking cost.").defineInRange("slotUpFactor", 3, 0, 1000);
         builder.pop();
 
         this.unlockEnabled = builder.comment("Set to false to disable the default way of unlocking trinkets.").define("unlockEnabled", true);

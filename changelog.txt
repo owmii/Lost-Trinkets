@@ -1,5 +1,15 @@
+0.1.22
+- Added Russian translation ru_ru.json - Thanks to Fr0stmatic
+- Updated lollipop to v3.2.6
+
+0.1.21
+- Increased the max slotUpFactor on the config from 20 to 1000
+
+0.1.20
+- Fixed Ruby Heart trinket by trying to save last health - Thanks to BlueAgent
+
 0.1.19
-- Add Added option for maximum trinket slots - Thanks to BlueAgent
+- Added config option for maximum trinket slots - Thanks to BlueAgent
 
 0.1.18
 - Re-Fixed a server crash, Closes #48
