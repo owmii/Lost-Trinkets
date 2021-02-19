@@ -12,9 +12,13 @@ public enum Client implements IClient {
 
     @Override
     public void client(FMLClientSetupEvent event) {
+        EntityRenderer.register();
+    }
+
+    @Override
+    public void syncClient(FMLClientSetupEvent event) {
         TileRenderer.register();
         Screens.register();
         KeyHandler.register();
-        EntityRenderer.register();
     }
 }
