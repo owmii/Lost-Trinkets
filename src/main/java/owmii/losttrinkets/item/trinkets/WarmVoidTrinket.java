@@ -19,8 +19,8 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
     public void tick(World world, BlockPos pos, PlayerEntity player) {
         if (player.getPosY() <= -64) {
             if (world instanceof ServerWorld && !player.isPassenger() && !player.isBeingRidden()) {
-                if (world.func_234923_W_() != World.field_234918_g_) {
-                    ServerWorld serverworld = ((ServerWorld) world).getServer().getWorld(World.field_234918_g_);
+                if (world.getDimensionKey() != World.OVERWORLD) {
+                    ServerWorld serverworld = ((ServerWorld) world).getServer().getWorld(World.OVERWORLD);
                     if (serverworld != null) {
                         player.changeDimension(serverworld);
                     }
@@ -30,7 +30,7 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
                         BlockPos bedPos = position.get();
                         player.setPositionAndUpdate(bedPos.getX(), bedPos.getY(), bedPos.getZ());
                     } else {
-                        BlockPos spawnPos = ((ServerWorld) world).func_241135_u_();
+                        BlockPos spawnPos = ((ServerWorld) world).getSpawnPoint();
                         player.setPositionAndUpdate(spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
                     }
                 }

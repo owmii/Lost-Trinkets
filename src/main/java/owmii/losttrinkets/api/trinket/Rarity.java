@@ -19,7 +19,7 @@ public enum Rarity {
     Rarity(int weight, int color) {
         this.weight = weight;
         this.color = color;
-        this.style = Style.EMPTY.setColor(Color.func_240743_a_(this.color));
+        this.style = Style.EMPTY.setColor(Color.fromInt(this.color));
     }
 
     public int getWeight() {
