@@ -8,6 +8,7 @@ import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraftforge.fml.network.NetworkEvent;
 import owmii.lib.network.IPacket;
+import owmii.lib.util.Magnet;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.item.Itms;
 
@@ -31,11 +32,11 @@ public class MagnetoPacket implements IPacket<MagnetoPacket> {
                 AxisAlignedBB bb = new AxisAlignedBB(player.getPosition()).grow(10);
                 List<ItemEntity> entities = player.world.getEntitiesWithinAABB(ItemEntity.class, bb);
                 List<ExperienceOrbEntity> orbEntities = player.world.getEntitiesWithinAABB(ExperienceOrbEntity.class, bb);
-                entities.stream().filter(Entity::isAlive).forEach(entity -> {
+                entities.stream().filter(Magnet::canCollectManual).forEach(entity -> {
                     entity.setNoPickupDelay();
                     entity.onCollideWithPlayer(player);
                 });
-                orbEntities.stream().filter(Entity::isAlive).forEach(orb -> {
+                orbEntities.stream().filter(Magnet::canCollectManual).forEach(orb -> {
                     orb.delayBeforeCanPickup = 0;
                     player.xpCooldown = 0;
                     orb.onCollideWithPlayer(player);
