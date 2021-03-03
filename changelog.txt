@@ -1,3 +1,7 @@
+0.1.23
+- Added magneto compatibility for Demagnetize and Botania - Thanks to BlueAgent
+- Updated lollipop to v3.2.8
+
 0.1.22
 - Added Russian translation ru_ru.json - Thanks to Fr0stmatic
 - Updated lollipop to v3.2.6
