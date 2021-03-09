@@ -16,7 +16,7 @@ description='''
 [[dependencies.losttrinkets]]
     modId="lollipop"
     mandatory=true
-    versionRange="[3.2.6,)"
+    versionRange="[3.2.9,)"
     ordering="NONE"
     side="BOTH"
 
