@@ -1,3 +1,7 @@
+0.1.24
+- Bump MC version to 1.16.5
+- Updated lollipop to v3.2.9
+
 0.1.23
 - Added magneto compatibility for Demagnetize and Botania - Thanks to BlueAgent
 - Updated lollipop to v3.2.8
