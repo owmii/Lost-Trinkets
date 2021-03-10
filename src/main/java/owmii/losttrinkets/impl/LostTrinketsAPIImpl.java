@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public class LostTrinketsAPIImpl implements ILostTrinketsAPI {
@@ -20,7 +21,7 @@ public class LostTrinketsAPIImpl implements ILostTrinketsAPI {
 
     @Override
     public boolean unlock(PlayerEntity player, ITrinket trinket) {
-        if (!player.world.isRemote && UnlockManager.isEnabled(trinket) && !getTrinkets(player).has(trinket)) {
+        if (!player.world.isRemote && isEnabled(trinket) && !getTrinkets(player).has(trinket)) {
             List<ITrinket> trinketList = UNLOCK_QUEUE.get(player.getUniqueID());
             if (trinketList != null) {
                 trinketList.add(trinket);
@@ -46,5 +47,15 @@ public class LostTrinketsAPIImpl implements ILostTrinketsAPI {
     @Override
     public PlayerData getData(PlayerEntity player) {
         return player.getCapability(PlayerData.CAP).orElse(new PlayerData());
+    }
+
+    @Override
+    public Set<ITrinket> getTrinkets() {
+        return UnlockManager.getTrinkets();
+    }
+
+    @Override
+    public Set<ITrinket> getRandomTrinkets() {
+        return UnlockManager.getRandomTrinkets();
     }
 }

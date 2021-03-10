@@ -66,7 +66,7 @@ public class UnlockManager {
         PlayerData data = LostTrinketsAPI.getData(player);
         if (!checkDelay || data.unlockDelay <= 0) {
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
-            if (isEnabled(trinket) && trinkets.give(trinket)) {
+            if (LostTrinketsAPI.get().isEnabled(trinket) && trinkets.give(trinket)) {
                 if (checkDelay) {
                     data.unlockDelay = Configs.GENERAL.unlockCooldown.get();
                 }
@@ -130,11 +130,7 @@ public class UnlockManager {
         return Collections.unmodifiableSet(TRINKETS);
     }
 
-    public static boolean isEnabled(ITrinket trinket) {
-        return TRINKETS.contains(trinket);
-    }
-
-    public static boolean isDisabled(ITrinket trinket) {
-        return !isEnabled(trinket);
+    public static Set<ITrinket> getRandomTrinkets() {
+        return Collections.unmodifiableSet(RANDOM_TRINKETS);
     }
 }

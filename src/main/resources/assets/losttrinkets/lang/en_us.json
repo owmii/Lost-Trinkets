@@ -72,6 +72,8 @@
   "item.losttrinkets.golden_tooth": "Golden Tooth",
   "item.losttrinkets.treasure_bag": "Treasure Bag",
   "item.losttrinkets.fire_mind": "Fire Mind",
+  "gui.losttrinkets.disabled": "Disabled",
+  "gui.losttrinkets.non_random": "Not obtainable randomly",
   "gui.losttrinkets.rarity.common": "Rarity: Common",
   "gui.losttrinkets.rarity.uncommon": "Rarity: Uncommon",
   "gui.losttrinkets.rarity.rare": "Rarity: Rare",

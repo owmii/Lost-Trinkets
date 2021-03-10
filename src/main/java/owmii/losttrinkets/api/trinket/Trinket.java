@@ -50,6 +50,11 @@ public class Trinket<T extends Trinket> extends Item implements ITrinket {
     @Override
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+        if (LostTrinketsAPI.get().isDisabled(this)) {
+            tooltip.add(new TranslationTextComponent("gui.losttrinkets.disabled").mergeStyle(TextFormatting.DARK_RED));
+        } else if (LostTrinketsAPI.get().isNonRandom(this)) {
+            tooltip.add(new TranslationTextComponent("gui.losttrinkets.non_random").mergeStyle(TextFormatting.GRAY));
+        }
         addTrinketDescription(stack, tooltip);
         tooltip.add(new TranslationTextComponent("gui.losttrinkets.rarity." + getRarity().name().toLowerCase(Locale.ENGLISH)).mergeStyle(TextFormatting.DARK_GRAY));
     }
