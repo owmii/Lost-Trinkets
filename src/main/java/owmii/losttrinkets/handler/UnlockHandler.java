@@ -18,9 +18,9 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import owmii.lib.util.Ticker;
-import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.trinket.ITrinket;
 import owmii.losttrinkets.config.Configs;
+import owmii.losttrinkets.impl.LostTrinketsAPIImpl;
 
 import java.util.*;
 
@@ -35,12 +35,12 @@ public class UnlockHandler {
         if (event.phase == TickEvent.Phase.END && event.side == LogicalSide.SERVER) {
             PlayerEntity player = event.player;
 
-            List<ITrinket> trinkets = LostTrinketsAPI.UNLOCK_QUEUE.get(player.getUniqueID());
+            List<ITrinket> trinkets = LostTrinketsAPIImpl.UNLOCK_QUEUE.get(player.getUniqueID());
             if (trinkets != null) {
                 trinkets.forEach(trinket -> UnlockManager.unlock(player, trinket, false));
             }
-            LostTrinketsAPI.UNLOCK_QUEUE.remove(player.getUniqueID());
-            Iterator<UUID> itr = LostTrinketsAPI.WEIGHTED_UNLOCK_QUEUE.iterator();
+            LostTrinketsAPIImpl.UNLOCK_QUEUE.remove(player.getUniqueID());
+            Iterator<UUID> itr = LostTrinketsAPIImpl.WEIGHTED_UNLOCK_QUEUE.iterator();
             while (itr.hasNext()) {
                 if (itr.next().equals(player.getUniqueID())) {
                     UnlockManager.unlock(player, false);

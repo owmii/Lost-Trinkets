@@ -37,7 +37,7 @@ public class Trinket<T extends Trinket> extends Item implements ITrinket {
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
-        if (LostTrinketsAPI.unlock(player, this)) {
+        if (LostTrinketsAPI.get().unlock(player, this)) {
             ItemStack stack = player.getHeldItem(hand);
             if (!player.isCreative()) {
                 stack.shrink(1);

@@ -32,7 +32,7 @@ public class MainCommand {
                     return players.size();
                 })).then(Commands.literal("random").executes(context -> {
                     Collection<ServerPlayerEntity> players = EntityArgument.getPlayers(context, "targets");
-                    players.forEach(LostTrinketsAPI::unlock);
+                    players.forEach(LostTrinketsAPI.get()::unlock);
                     return players.size();
                 }))))
                 .then(Commands.literal("clear").requires(source -> {

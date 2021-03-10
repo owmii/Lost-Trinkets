@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import owmii.lib.api.IClient;
 import owmii.lib.api.IMod;
 import owmii.lib.network.Network;
+import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.block.Blcks;
 import owmii.losttrinkets.client.Client;
 import owmii.losttrinkets.client.Sounds;
@@ -15,6 +16,7 @@ import owmii.losttrinkets.config.Configs;
 import owmii.losttrinkets.entity.Entities;
 import owmii.losttrinkets.handler.DataManager;
 import owmii.losttrinkets.handler.UnlockManager;
+import owmii.losttrinkets.impl.LostTrinketsAPIImpl;
 import owmii.losttrinkets.item.Itms;
 import owmii.losttrinkets.network.Packets;
 
@@ -31,6 +33,8 @@ public class LostTrinkets implements IMod {
         Itms.REG.init();
         Entities.REG.init();
         Sounds.REG.init();
+
+        LostTrinketsAPI.init(new LostTrinketsAPIImpl());
 
         loadListeners();
         Configs.register();
