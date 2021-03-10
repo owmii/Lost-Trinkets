@@ -35,7 +35,7 @@ import static owmii.losttrinkets.LostTrinkets.LOGGER;
 
 public class UnlockManager {
     private static final Set<ITrinket> TRINKETS = Sets.newLinkedHashSet();
-    private static final Set<ITrinket> UNLOCKABLE_TRINKETS = Sets.newLinkedHashSet();
+    private static final Set<ITrinket> RANDOM_TRINKETS = Sets.newLinkedHashSet();
     private static final List<WeightedTrinket> WEIGHTED_TRINKETS = new ArrayList<>();
 
     @Nullable
@@ -45,7 +45,7 @@ public class UnlockManager {
             if (!checkDelay || data.unlockDelay <= 0) {
                 Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
                 WEIGHTED_TRINKETS.clear();
-                WEIGHTED_TRINKETS.addAll(UNLOCKABLE_TRINKETS.stream()
+                WEIGHTED_TRINKETS.addAll(RANDOM_TRINKETS.stream()
                         .filter(trinket -> !trinkets.has(trinket))
                         .map(WeightedTrinket::new)
                         .collect(Collectors.toList()));
@@ -66,7 +66,7 @@ public class UnlockManager {
         PlayerData data = LostTrinketsAPI.getData(player);
         if (!checkDelay || data.unlockDelay <= 0) {
             Trinkets trinkets = LostTrinketsAPI.getTrinkets(player);
-            if (trinkets.give(trinket)) {
+            if (isEnabled(trinket) && trinkets.give(trinket)) {
                 if (checkDelay) {
                     data.unlockDelay = Configs.GENERAL.unlockCooldown.get();
                 }
@@ -117,9 +117,9 @@ public class UnlockManager {
                 } else {
                     TRINKETS.add(trinket);
                     if (trinket.isUnlockable() && !nonRandom.contains(rl)) {
-                        UNLOCKABLE_TRINKETS.add(trinket);
+                        RANDOM_TRINKETS.add(trinket);
                     } else {
-                        LOGGER.warn(MARKER, "Not Unlockable Trinket: " + rl);
+                        LOGGER.warn(MARKER, "Non-Randomly Unlockable Trinket: " + rl);
                     }
                 }
             }
@@ -128,5 +128,13 @@ public class UnlockManager {
 
     public static Set<ITrinket> getTrinkets() {
         return Collections.unmodifiableSet(TRINKETS);
+    }
+
+    public static boolean isEnabled(ITrinket trinket) {
+        return TRINKETS.contains(trinket);
+    }
+
+    public static boolean isDisabled(ITrinket trinket) {
+        return !isEnabled(trinket);
     }
 }

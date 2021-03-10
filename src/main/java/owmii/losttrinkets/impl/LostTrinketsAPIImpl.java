@@ -6,6 +6,7 @@ import owmii.losttrinkets.api.ILostTrinketsAPI;
 import owmii.losttrinkets.api.player.PlayerData;
 import owmii.losttrinkets.api.trinket.ITrinket;
 import owmii.losttrinkets.api.trinket.Trinkets;
+import owmii.losttrinkets.handler.UnlockManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class LostTrinketsAPIImpl implements ILostTrinketsAPI {
 
     @Override
     public boolean unlock(PlayerEntity player, ITrinket trinket) {
-        if (!player.world.isRemote && !getTrinkets(player).has(trinket)) {
+        if (!player.world.isRemote && UnlockManager.isEnabled(trinket) && !getTrinkets(player).has(trinket)) {
             List<ITrinket> trinketList = UNLOCK_QUEUE.get(player.getUniqueID());
             if (trinketList != null) {
                 trinketList.add(trinket);
