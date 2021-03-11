@@ -5,10 +5,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Util;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fml.client.gui.GuiUtils;
@@ -56,8 +53,8 @@ public class AvailableTrinketsScreen extends AbstractLTScreen {
                         }, (button, matrix, i1, i2) -> {
                             ItemStack stack = new ItemStack(trinket);
                             List<ITextComponent> list = Lists.newArrayList();
-                            list.add(new StringTextComponent("").append(stack.getDisplayName()).mergeStyle(TextFormatting.LIGHT_PURPLE));
-                            list.add(new TranslationTextComponent(Util.makeTranslationKey("info", Registry.ITEM.getKey(stack.getItem()))).mergeStyle(TextFormatting.GRAY));
+                            list.add(stack.getDisplayName());
+                            trinket.addTrinketDescription(stack, list);
                             list.add(new TranslationTextComponent("gui.losttrinkets.rarity." + trinket.getRarity().name().toLowerCase(Locale.ENGLISH)).mergeStyle(TextFormatting.DARK_GRAY));
                             GuiUtils.drawHoveringText(matrix, list, i1, i2, this.width, this.height, 240, this.font);
                         }));

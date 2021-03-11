@@ -2,7 +2,6 @@ package owmii.losttrinkets.client.screen;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -20,6 +19,7 @@ import owmii.losttrinkets.network.packet.UnlockSlotPacket;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class TrinketsScreen extends AbstractLTScreen {
     private int x, y, columns = 10, rows = 4, btnDim = 28;
@@ -48,7 +48,8 @@ public class TrinketsScreen extends AbstractLTScreen {
                             ItemStack stack = new ItemStack(trinket);
                             ArrayList<ITextComponent> list = Lists.newArrayList();
                             list.add(stack.getDisplayName());
-                            stack.getItem().addInformation(stack, this.mc.world, list, this.mc.gameSettings.advancedItemTooltips ? ITooltipFlag.TooltipFlags.ADVANCED : ITooltipFlag.TooltipFlags.NORMAL);
+                            trinket.addTrinketDescription(stack, list);
+                            list.add(new TranslationTextComponent("gui.losttrinkets.rarity." + trinket.getRarity().name().toLowerCase(Locale.ENGLISH)).mergeStyle(TextFormatting.DARK_GRAY));
                             GuiUtils.drawHoveringText(matrix, list, i1, i2, this.width, this.height, 240, this.font);
                         }));
                     } else {
