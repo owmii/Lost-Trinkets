@@ -17,6 +17,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import owmii.lib.client.util.MC;
 import owmii.losttrinkets.api.LostTrinketsAPI;
 
 import javax.annotation.Nullable;
@@ -51,9 +52,14 @@ public class Trinket<T extends Trinket> extends Item implements ITrinket {
     @OnlyIn(Dist.CLIENT)
     public void addInformation(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         if (LostTrinketsAPI.get().isDisabled(this)) {
-            tooltip.add(new TranslationTextComponent("gui.losttrinkets.disabled").mergeStyle(TextFormatting.DARK_RED));
-        } else if (LostTrinketsAPI.get().isNonRandom(this)) {
-            tooltip.add(new TranslationTextComponent("gui.losttrinkets.non_random").mergeStyle(TextFormatting.GRAY));
+            tooltip.add(new TranslationTextComponent("gui.losttrinkets.status.disabled").mergeStyle(TextFormatting.DARK_RED));
+        } else {
+            PlayerEntity player = MC.player().orElse(null);
+            if (player != null && LostTrinketsAPI.getTrinkets(player).has(this)) {
+                tooltip.add(new TranslationTextComponent("gui.losttrinkets.status.owned").mergeStyle(TextFormatting.BLUE));
+            } else if (LostTrinketsAPI.get().isNonRandom(this)) {
+                tooltip.add(new TranslationTextComponent("gui.losttrinkets.status.non_random").mergeStyle(TextFormatting.DARK_GRAY));
+            }
         }
         addTrinketDescription(stack, tooltip);
         tooltip.add(new TranslationTextComponent("gui.losttrinkets.rarity." + getRarity().name().toLowerCase(Locale.ENGLISH)).mergeStyle(TextFormatting.DARK_GRAY));
