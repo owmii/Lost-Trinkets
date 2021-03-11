@@ -2,7 +2,6 @@ package owmii.losttrinkets;
 
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import owmii.lib.api.IClient;
@@ -15,7 +14,6 @@ import owmii.losttrinkets.client.Sounds;
 import owmii.losttrinkets.config.Configs;
 import owmii.losttrinkets.entity.Entities;
 import owmii.losttrinkets.handler.DataManager;
-import owmii.losttrinkets.handler.UnlockManager;
 import owmii.losttrinkets.impl.LostTrinketsAPIImpl;
 import owmii.losttrinkets.item.Itms;
 import owmii.losttrinkets.network.Packets;
@@ -37,7 +35,7 @@ public class LostTrinkets implements IMod {
         LostTrinketsAPI.init(new LostTrinketsAPIImpl());
 
         loadListeners();
-        Configs.register();
+        Configs.register(this);
     }
 
     @Override
@@ -45,11 +43,6 @@ public class LostTrinkets implements IMod {
         DataManager.register();
         Packets.register();
         Entities.register();
-    }
-
-    @Override
-    public void loadComplete(FMLLoadCompleteEvent event) {
-        UnlockManager.init();
     }
 
     @Nullable

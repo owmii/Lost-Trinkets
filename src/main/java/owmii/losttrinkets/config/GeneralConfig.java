@@ -3,6 +3,7 @@ package owmii.losttrinkets.config;
 import com.google.common.collect.Lists;
 import net.minecraftforge.common.ForgeConfigSpec;
 import owmii.losttrinkets.api.trinket.Trinkets;
+import owmii.losttrinkets.handler.UnlockManager;
 
 import java.util.List;
 
@@ -89,5 +90,9 @@ public class GeneralConfig {
             return 0;
         }
         return this.slotCost.get() + ((slots - startSlots) * this.slotUpFactor.get());
+    }
+
+    public void refresh() {
+        UnlockManager.refresh();
     }
 }

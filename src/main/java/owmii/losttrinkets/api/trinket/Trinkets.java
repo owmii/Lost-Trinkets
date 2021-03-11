@@ -8,12 +8,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
+import owmii.losttrinkets.api.LostTrinketsAPI;
 import owmii.losttrinkets.api.player.PlayerData;
 import owmii.losttrinkets.config.Configs;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class Trinkets implements INBTSerializable<CompoundNBT> {
     private final List<ITrinket> available = new ArrayList<>();
@@ -179,6 +181,14 @@ public class Trinkets implements INBTSerializable<CompoundNBT> {
             return true;
         }
         return false;
+    }
+
+    public void removeDisabled(PlayerEntity player) {
+        getActiveTrinkets().stream().filter(LostTrinketsAPI.get()::isDisabled).collect(Collectors.toList())
+                .forEach(trinket -> setInactive(trinket, player));
+        if (getAvailableTrinkets().removeIf(LostTrinketsAPI.get()::isDisabled)) {
+            this.data.setSync(true);
+        }
     }
 
     public boolean has(ITrinket trinket) {

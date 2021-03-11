@@ -115,9 +115,8 @@ public class DataManager implements ICapabilitySerializable<CompoundNBT> {
     @SubscribeEvent
     public static void loggedIn(PlayerEvent.PlayerLoggedInEvent event) {
         Trinkets trinkets = LostTrinketsAPI.getTrinkets(event.getPlayer());
-        trinkets.getActiveTrinkets().removeIf(LostTrinketsAPI.get()::isDisabled);
-        trinkets.getAvailableTrinkets().removeIf(LostTrinketsAPI.get()::isDisabled);
         trinkets.initSlots(Configs.GENERAL.startSlots.get());
+        trinkets.removeDisabled(event.getPlayer());
         sync(event.getPlayer());
     }
 
