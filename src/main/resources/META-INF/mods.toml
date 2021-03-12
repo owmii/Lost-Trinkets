@@ -1,5 +1,5 @@
 modLoader="javafml" 
-loaderVersion="[35,)"
+loaderVersion="[36,)"
 issueTrackerURL="https://github.com/owmii/lost-trinkets/issues"
 license="LGPLv3"
 
@@ -23,6 +23,6 @@ description='''
 [[dependencies.losttrinkets]]
     modId="forge"
     mandatory=true
-    versionRange="[35.0.2,)"
+    versionRange="[36.0.0,)"
     ordering="NONE"
     side="BOTH"
