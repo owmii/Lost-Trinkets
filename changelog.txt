@@ -1,4 +1,7 @@
-0.1.25
+0.1.27
+- Fixed some trinkets not working.
+
+0.1.25 & 0.1.26 (rebuild)
 - Prevent disabled trinkets from being unlocked from using a Trinket item - Thanks to BlueAgent
 - Added tooltip for disabled and non-random trinkets and ownership of trinket - Thanks to BlueAgent
 - Added support for config reloading (banned trinkets will be removed from online players when config is reloaded) - Thanks to BlueAgent

@@ -6,7 +6,7 @@ buildscript {
         maven { url = 'https://repo.spongepowered.org/repository/maven-public' }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
         classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7-SNAPSHOT'
     }
 }
@@ -47,13 +47,14 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${lib.jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${lib.jei_version}")
     compile fg.deobf("top.theillusivec4.curios:curios-forge:${lib.curios_version}")
+    annotationProcessor 'org.spongepowered:mixin:0.8.1:processor'
     compile lib
 }
 
 jar {
     manifest {
         attributes([
-                "MixinConfigs"            : "${mod_name.toLowerCase()}.refmap.json",
+                "MixinConfigs"            : "${mod_name.toLowerCase()}.mixins.json",
                 'FMLAT'                   : 'accesstransformer.cfg',
                 "Specification-Title"     : mod_name,
                 "Specification-Vendor"    : lib.mod_group,
@@ -63,5 +64,13 @@ jar {
                 "Implementation-Vendor"   : lib.mod_group,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ],)
+    }
+}
+
+if (System.getProperty("idea.sync.active") == "true") {
+    afterEvaluate {
+        tasks.withType(JavaCompile).all {
+            it.options.annotationProcessorPath = files()
+        }
     }
 }
