@@ -10,12 +10,9 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.ServerPlayNetHandler;
 import net.minecraft.network.play.client.CClientStatusPacket;
 import net.minecraft.network.play.server.SChangeGameStatePacket;
-import net.minecraft.network.play.server.SPlaySoundEffectPacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -48,13 +45,10 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
 
     /**
      * Follow code in {@link SpawnPointCommand} to find the real spawn point information.
-     *
-     * @see ServerPlayNetHandler#processClientStatus(CClientStatusPacket)
-     * @see PlayerList#func_232644_a_(ServerPlayerEntity, boolean)
      */
     private static void teleportToSpawnPoint(ServerPlayerEntity player) {
         player.stopRiding();
-        SpawnPointInfo info = getSpawnPointInfo(player, true);
+        SpawnPointInfo info = getSpawnPointInfo(player);
         player.setMotion(Vector3d.ZERO);
         player.fallDistance = 0;
         if (player.getServerWorld() != info.spawnWorld) {
@@ -67,10 +61,9 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
 
     /**
      * Follow code in {@link ServerPlayNetHandler#processClientStatus(CClientStatusPacket)}.
-     *
-     * @see PlayerList#func_232644_a_(ServerPlayerEntity, boolean)
+     * Based on {@link PlayerList#func_232644_a_(ServerPlayerEntity, boolean)}.
      */
-    private static SpawnPointInfo getSpawnPointInfo(ServerPlayerEntity player, boolean keepEverything) {
+    private static SpawnPointInfo getSpawnPointInfo(ServerPlayerEntity player) {
         MinecraftServer server = player.getServerWorld().getServer();
         BlockPos spawnPosRaw = player.func_241140_K_();
         float spawnAngle = player.func_242109_L();
@@ -78,7 +71,7 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
         ServerWorld spawnWorldRaw = server.getWorld(player.func_241141_L_());
         Optional<Vector3d> spawnPos;
         if (spawnWorldRaw != null && spawnPosRaw != null) {
-            spawnPos = PlayerEntity.func_242374_a(spawnWorldRaw, spawnPosRaw, spawnAngle, spawnForced, keepEverything);
+            spawnPos = PlayerEntity.func_242374_a(spawnWorldRaw, spawnPosRaw, spawnAngle, spawnForced, true);
         } else {
             spawnPos = Optional.empty();
         }
@@ -86,7 +79,6 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
         ServerWorld spawnWorld = spawnWorldRaw != null && spawnPos.isPresent() ? spawnWorldRaw : server.func_241755_D_();
 
         Consumer<ServerPlayerEntity> repositionEntity = callbackPlayer -> {
-            boolean playAnchorSound = false;
             if (spawnPos.isPresent()) {
                 BlockState blockstate = spawnWorld.getBlockState(spawnPosRaw);
                 boolean isRespawnAnchor = blockstate.isIn(Blocks.RESPAWN_ANCHOR);
@@ -101,7 +93,6 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
 
                 callbackPlayer.setLocationAndAngles(spawnPosResolved.x, spawnPosResolved.y, spawnPosResolved.z, spawnAngleResolved, 0.0F);
                 callbackPlayer.func_242111_a(spawnWorld.getDimensionKey(), spawnPosRaw, spawnAngle, spawnForced, false);
-                playAnchorSound = !keepEverything && isRespawnAnchor;
             } else if (spawnPosRaw != null) {
                 callbackPlayer.connection.sendPacket(new SChangeGameStatePacket(SChangeGameStatePacket.field_241764_a_, 0.0F));
             }
@@ -109,16 +100,11 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
             while (!spawnWorld.hasNoCollisions(callbackPlayer) && callbackPlayer.getPosY() < 256.0D) {
                 callbackPlayer.setPosition(callbackPlayer.getPosX(), callbackPlayer.getPosY() + 1.0D, callbackPlayer.getPosZ());
             }
-
-            if (playAnchorSound) {
-                callbackPlayer.connection.sendPacket(new SPlaySoundEffectPacket(SoundEvents.BLOCK_RESPAWN_ANCHOR_DEPLETE, SoundCategory.BLOCKS, spawnPosRaw.getX(), spawnPosRaw.getY(), spawnPosRaw.getZ(), 1.0F, 1.0F));
-            }
         };
         return new SpawnPointInfo(
                 spawnWorld,
-                spawnPos.orElseGet(() -> Vector3d.copyCenteredWithVerticalOffset(spawnWorld.getSpawnPoint(), 0.1)),
+                spawnPos.orElseGet(() -> Vector3d.copyCenteredHorizontally(spawnWorld.getSpawnPoint())),
                 spawnAngle,
-                spawnForced,
                 repositionEntity
         );
     }
@@ -136,6 +122,7 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
             if (entity instanceof ServerPlayerEntity) {
                 info.repositionEntity.accept((ServerPlayerEntity) entity);
             }
+            entity.setPositionAndUpdate(entity.getPosX(), entity.getPosY(), entity.getPosZ());
             return entity;
         }
 
@@ -150,14 +137,12 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
         public final ServerWorld spawnWorld;
         public final Vector3d spawnPos;
         public final float spawnAngle;
-        public final boolean spawnForced;
         public final Consumer<ServerPlayerEntity> repositionEntity;
 
-        public SpawnPointInfo(ServerWorld spawnWorld, Vector3d spawnPos, float spawnAngle, boolean spawnForced, Consumer<ServerPlayerEntity> repositionEntity) {
+        public SpawnPointInfo(ServerWorld spawnWorld, Vector3d spawnPos, float spawnAngle, Consumer<ServerPlayerEntity> repositionEntity) {
             this.spawnWorld = spawnWorld;
             this.spawnPos = spawnPos;
             this.spawnAngle = spawnAngle;
-            this.spawnForced = spawnForced;
             this.repositionEntity = repositionEntity;
         }
     }
