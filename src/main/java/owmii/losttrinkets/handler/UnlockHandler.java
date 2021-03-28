@@ -4,15 +4,17 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.HoeItem;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
-import net.minecraftforge.event.entity.player.UseHoeEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
@@ -125,12 +127,19 @@ public class UnlockHandler {
         }
     }
 
-    @SubscribeEvent
-    public static void useHoe(UseHoeEvent event) {
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void useHoe(BlockEvent.BlockToolInteractEvent event) {
         if (Configs.GENERAL.unlockEnabled.get() && Configs.GENERAL.farmingUnlockEnabled.get()) {
             PlayerEntity player = event.getPlayer();
-            if (!player.world.isRemote) {
-                queueUnlock(player, Type.FARM_HARVEST);
+            if (!player.world.isRemote && event.getToolType() == ToolType.HOE) {
+                BlockState originalState = event.getState();
+                BlockState finalState = event.getFinalState();
+                if (finalState == originalState) {
+                    finalState = HoeItem.getHoeTillingState(originalState);
+                }
+                if (finalState != null && finalState != originalState) {
+                    queueUnlock(player, Type.FARM_HARVEST);
+                }
             }
         }
     }
