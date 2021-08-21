@@ -13,6 +13,7 @@ import net.minecraft.network.play.server.SChangeGameStatePacket;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.management.PlayerList;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.concurrent.TickDelayedTask;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
@@ -38,7 +39,10 @@ public class WarmVoidTrinket extends Trinket<WarmVoidTrinket> implements ITickab
         // TODO 1.17: Update -64
         if (player instanceof ServerPlayerEntity && player.getPosY() + Math.min(0, player.getMotion().getY()) <= -64) {
             if (!player.isPassenger() && !player.isBeingRidden()) {
-                teleportToSpawnPoint((ServerPlayerEntity) player);
+                MinecraftServer server = ((ServerPlayerEntity) player).getServerWorld().getServer();
+                server.enqueue(new TickDelayedTask(server.getTickCounter(), () -> {
+                        teleportToSpawnPoint((ServerPlayerEntity) player);
+                }));
             }
         }
     }
