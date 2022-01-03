@@ -11,6 +11,7 @@ import net.minecraftforge.fml.client.gui.GuiUtils;
 import owmii.lib.client.screen.widget.IconButton;
 import owmii.losttrinkets.LostTrinkets;
 import owmii.losttrinkets.api.LostTrinketsAPI;
+import owmii.losttrinkets.api.player.*;
 import owmii.losttrinkets.api.trinket.ITrinket;
 import owmii.losttrinkets.api.trinket.Trinkets;
 import owmii.losttrinkets.client.screen.widget.TrinketButton;
@@ -90,6 +91,12 @@ public class TrinketsScreen extends AbstractLTScreen {
         renderBackground(matrix);
         super.render(matrix, mx, my, pt);
         String s = getTitle().getString();
-        this.font.drawStringWithShadow(matrix, s, this.width / 2 - this.font.getStringWidth(s) / 2, this.y - 20, 0x999999);
+        this.font.drawStringWithShadow(matrix, s, this.width / 2 - this.font.getStringWidth(s) / 2, this.y - 35, 0x999999);
+
+        if (this.mc.player != null){
+            PlayerData data = LostTrinketsAPI.getData(this.mc.player);
+            String c = new TranslationTextComponent("gui.losttrinkets.trinket.cooldown", data.unlockDelay).getString();
+            this.font.drawStringWithShadow(matrix, c, this.width / 2 - this.font.getStringWidth(c) / 2, this.y - 20, 0x999999);
+        }
     }
 }
